@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [task, setTask] = useState();
+  const [taskList, setTaskList] = useState([]);
+  function handleChange(e) {
+    setTask(e.target.value)
+  }
+  function saveTask() {
+    if (task.trim() !== "") {
+      setTaskList([...taskList, task])
+      setTask("")
+    }
+  }
+  function keyPress(e) {
+    if (e.key === "Enter") {
+      saveTask()
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='container'>
+        <div className='inputField'>
+      <input onKeyDown={keyPress} type="text" value={task} placeholder='Add Task' onChange={handleChange}/>
+      <button onClick={saveTask}>Save</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className='task-container'>
+      { taskList.map((itemTask) =>(
+        <h1 className='taskName'>{itemTask}</h1>
+      ))}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </div>
   )
 }
 
