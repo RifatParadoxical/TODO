@@ -1,34 +1,36 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const App = () => {
-  const [task, setTask] = useState();
-  const [taskList, setTaskList] = useState([]);
-  function handleChange(e) {
-    setTask(e.target.value)
-  }
-  function saveTask() {
-    if (task.trim() !== "") {
-      setTaskList([...taskList, task])
-      setTask("")
+const [todo, setTodo] = useState(null)
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      let url = `http://localhost:3000/repoes`;
+      const res = await fetch(url)
+      if (!res.ok) {
+        throw new Error(`HTTP Error. status: ${res.status}`);
+      }
+      const post = await res.json()
+      setTodo(post)
+
+    } catch (error) {
+      console.error("Error fetching data:", error)
     }
-  }
-  function keyPress(e) {
-    if (e.key === "Enter") {
-      saveTask()
-    }
-  }
+  } 
+}, [todo])
+
 
   return (
       <div className='container'>
-        <div className='inputField'>
-      <input onKeyDown={keyPress} type="text" value={task} placeholder='Add Task' onChange={handleChange}/>
-      <button onClick={saveTask}>Save</button>
-      </div>
-      <div className='task-container'>
-      { taskList.map((itemTask) =>(
-        <h1 className='taskName'>{itemTask}</h1>
-      ))}
-      </div>
+      {todo ? (
+        Array.isArray(todo) ? (
+          todo.map((user, index) => <div key={index}><h2>{user.name || "Unnamed User"}</h2><p>{user.title}</p><button onClick={dlt}>Delete</button></div>)
+        ) : (
+          <p>{todo.name || "Unnamed User"}</p>
+        )
+      ) : (
+        <p>Loading...</p>
+      )}
       </div>
   )
 }
