@@ -2,28 +2,23 @@
     "repoes": [
         {
           "id": 1,
-          "name": "TODO",
-          "title": "To Do Application"
+          "name": "TODO"
         },
         {
           "id": 2,
-          "name": "DMRC",
-          "title": ""
+          "name": "DMRC"
         },
         {
           "id": 3,
-          "name": "Accordion Production Enhanced",
-          "title": "Accordion Production Enhanced – Informal but clear about modifications."
+          "name": "Accordion Production Enhanced"
         },
         {
           "id": 4,
-          "name": "programing_notes",
-          "title": ""
+          "name": "programing_notes"
         },
         {
           "id": 5,
-          "name": "react.js",
-          "title": ""
+          "name": "react.js"
         }
    ]
 
