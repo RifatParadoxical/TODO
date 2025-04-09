@@ -4,8 +4,14 @@ import { useForm } from 'react-hook-form';
 const App = () => {
   const [todo, setTodo] = useState(null);
   const { register, handleSubmit, formState:{errors} } = useForm()
-  function onSubmit(elem) {
-    console.log(elem)
+  function onSubmit(name) {
+    fetch('http://localhost:3000/repoes', {
+      method : 'POST',
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify(name)
+    }) .then(()=>{
+      console.log('todo added')
+    })
   }
 
   useEffect(() => {
@@ -31,7 +37,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit(onsubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <input {...register('newTodo', {required: true})} type="text" placeholder='Enter Todo' />
         <button type='Submit'>Add</button>
         {errors.newTodo && <p style={{color : "red"}}>To add new Todo, Input can't be Empty.</p>}
