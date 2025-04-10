@@ -4,14 +4,19 @@ import { useForm } from 'react-hook-form';
 const App = () => {
   const [todo, setTodo] = useState(null);
   const { register, handleSubmit, formState:{errors} } = useForm()
-  function onSubmit(name) {
-    fetch('http://localhost:3000/repoes', {
-      method : 'POST',
-      headers : {"Content-Type" : "application/json"},
-      body : JSON.stringify(name)
-    }) .then(()=>{
-      console.log('todo added')
-    })
+  const onSubmit = async (data) =>  {
+    const name = { name: data.newTodo }
+    try {
+      const addingData = await fetch('http://localhost:3000/repoes', {
+        method : 'POST',
+        headers : {"Content-Type" : "application/json"},
+        body : JSON.stringify(name)
+      }) 
+      window.location.reload();
+      
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
