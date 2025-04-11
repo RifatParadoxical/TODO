@@ -12,12 +12,32 @@ const App = () => {
         headers : {"Content-Type" : "application/json"},
         body : JSON.stringify(name)
       }) 
-      window.location.reload();
+      function reload() {
+        window.location.reload();
+      } 
+      reload();
       
     } catch (error) {
       console.log(error)
     }
   }
+
+const dlt = async (element) => {
+  
+  try { 
+    const deletingData = await fetch('http://localhost:3000/repoes/' + element.id,{
+      method : 'DELETE'
+    })
+
+    function reload() {
+      window.location.reload();
+    } 
+    reload();
+
+  } catch (error) {
+    
+  }
+}
 
   useEffect(() => {
      const fetchData = async () => {
@@ -42,14 +62,22 @@ const App = () => {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register('newTodo', {required: true})} type="text" placeholder='Enter Todo' />
-        <button type='Submit'>Add</button>
-        {errors.newTodo && <p style={{color : "red"}}>To add new Todo, Input can't be Empty.</p>}
-      </form>
+        <form className="todo-form" onSubmit={handleSubmit(onSubmit)}>
+    <input
+      {...register('newTodo', { required: true })}
+      type="text"
+      placeholder="Enter Todo"
+      className="todo-input"
+    />
+    <button type="submit" className="add-button">Add</button>
+    {errors.newTodo && (
+      <p className="error-message">To add new Todo, Input can't be empty.</p>
+    )}
+  </form>
       {todo ? todo.map((element, key)=>(
-        <div key={element.id}>
-          <h2>{element.name}</h2>
+          <div key={element.id} className="todo-item">
+          <h2 className="todo-title">{element.name}</h2>
+          <button className="delete-button" onClick={() => dlt(element)}>Delete</button>
         </div>
       )) : ( <h2>Loading..</h2> )}
     </div>
